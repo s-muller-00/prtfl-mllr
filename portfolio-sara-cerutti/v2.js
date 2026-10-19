@@ -20,6 +20,13 @@
 
   var STORE_KEY = "sc-lang";
 
+  // Header: show its background once the page has scrolled
+  function markScrolled() {
+    document.documentElement.classList.toggle("is-scrolled", window.scrollY > 4);
+  }
+  window.addEventListener("scroll", markScrolled, { passive: true });
+  markScrolled();
+
   function readLang() {
     try {
       var saved = window.localStorage.getItem(STORE_KEY);

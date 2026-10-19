@@ -2191,3 +2191,57 @@ img.v2-portrait {
     max-width: 200px;
   }
 }
+
+/* ---------- Fixed header on scroll ---------- */
+.v2-top,
+.h-top {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+/* Full-width glass behind the header, shown once the page scrolls */
+.v2-top::before,
+.h-top::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 50vw);
+  right: calc(50% - 50vw);
+  z-index: -1;
+  background: rgba(247, 247, 245, 0.82);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+  border-bottom: 1px solid var(--paper-edge);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.is-scrolled .v2-top::before,
+.is-scrolled .h-top::before {
+  opacity: 1;
+}
+
+/* Keep sticky labels and covers clear of the header */
+.v2-section-label {
+  top: 104px;
+}
+
+.v2-cover-stick {
+  top: 104px;
+}
+
+@media (max-width: 760px) {
+  .v2-cover-stick {
+    top: 80px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-top::before,
+  .h-top::before {
+    transition: none;
+  }
+}
