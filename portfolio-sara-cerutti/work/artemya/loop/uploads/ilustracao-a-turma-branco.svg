@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 270" width="320" height="270">
+  
+  
+  <g fill="white">
+    <path d="M68 200Q64 168 76 152Q68 136 84 135Q100 136 92 152Q104 168 100 200Z"></path>
+    <circle cx="84" cy="122" r="13"></circle>
+  </g>
+  
+  <g fill="white">
+    <path d="M138 206Q134 172 146 154Q138 138 154 137Q170 138 162 154Q174 172 170 206Z"></path>
+    <circle cx="154" cy="122" r="14"></circle>
+  </g>
+  
+  <g fill="white">
+    <path d="M212 200Q208 168 220 152Q212 136 228 135Q244 136 236 152Q248 168 244 200Z"></path>
+    <circle cx="228" cy="122" r="13"></circle>
+  </g>
+  
+  <path fill="none" stroke="white" stroke-opacity=".35" stroke-width="2" stroke-linecap="round" d="M44 214H276"></path>
+</svg>
