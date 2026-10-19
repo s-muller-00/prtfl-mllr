@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /work/artemya/loop/
 
-Sitemap: __SITE_URL__/sitemap.xml
+Sitemap: https://saracerutti.vercel.app/sitemap.xml

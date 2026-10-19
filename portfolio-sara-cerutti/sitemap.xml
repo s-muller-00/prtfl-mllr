@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>__SITE_URL__/</loc></url>
-  <url><loc>__SITE_URL__/about/</loc></url>
-  <url><loc>__SITE_URL__/experiments/</loc></url>
-  <url><loc>__SITE_URL__/work/gpa-rebuild/</loc></url>
-  <url><loc>__SITE_URL__/work/artemya/</loc></url>
-  <url><loc>__SITE_URL__/work/career-os/</loc></url>
+  <url><loc>https://saracerutti.vercel.app/</loc></url>
+  <url><loc>https://saracerutti.vercel.app/about/</loc></url>
+  <url><loc>https://saracerutti.vercel.app/experiments/</loc></url>
+  <url><loc>https://saracerutti.vercel.app/work/gpa-rebuild/</loc></url>
+  <url><loc>https://saracerutti.vercel.app/work/artemya/</loc></url>
+  <url><loc>https://saracerutti.vercel.app/work/career-os/</loc></url>
 </urlset>
