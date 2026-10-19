@@ -69,6 +69,12 @@
         var key = node.getAttribute("data-i18n-label");
         if (dict[key] != null) node.setAttribute("aria-label", dict[key]);
       });
+      document.querySelectorAll("[data-href-pt]").forEach(function (node) {
+        var href = node.getAttribute(lang === "pt" ? "data-href-pt" : "data-href-en");
+        var file = node.getAttribute(lang === "pt" ? "data-download-pt" : "data-download-en");
+        if (href) node.setAttribute("href", href);
+        if (file) node.setAttribute("download", file);
+      });
       document.querySelectorAll("[data-i18n-case-title]").forEach(function (node) {
         var title = node.getAttribute(lang === "pt" ? "data-title-pt" : "data-title-en");
         if (title) node.textContent = title;

@@ -167,9 +167,12 @@ body::after {
   transition: box-shadow 0.3s;
 }
 
+/* The SVG lens only on desktop pointers: on phones a url() backdrop filter can stop the bar from rendering */
 @supports (backdrop-filter: url(#liquid-lens)) and (not (-webkit-touch-callout: none)) {
-  .dock-bar {
-    backdrop-filter: blur(26px) saturate(170%) url(#liquid-lens);
+  @media (hover: hover) and (pointer: fine) {
+    .dock-bar {
+      backdrop-filter: blur(26px) saturate(170%) url(#liquid-lens);
+    }
   }
 }
 
