@@ -20,6 +20,10 @@
 
   var STORE_KEY = "sc-lang";
 
+  function reduceMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
   // Header: show its background once the page has scrolled
   function markScrolled() {
     document.documentElement.classList.toggle("is-scrolled", window.scrollY > 4);
@@ -177,7 +181,15 @@
       toggle.addEventListener("click", function () {
         lang = lang === "en" ? "pt" : "en";
         saveLang(lang);
-        apply();
+        // Fade the content out, swap the language, fade it back in
+        if (reduceMotion()) { apply(); document.dispatchEvent(new Event("v2:lang")); return; }
+        var root = document.documentElement;
+        root.classList.add("is-lang-switching");
+        setTimeout(function () {
+          apply();
+          root.classList.remove("is-lang-switching");
+          document.dispatchEvent(new Event("v2:lang"));
+        }, 140);
       });
     }
 
@@ -298,4 +310,118 @@
 
     apply();
   };
+
+  // ---------- Microinteractions (all pages) ----------
+  function initMotion() {
+    var pt = function () { return document.documentElement.getAttribute("data-lang") === "pt"; };
+
+    // 1 and 7. Enlarge screenshots and photos
+    var zoomables = document.querySelectorAll(".v2-shot, .v2-photos.is-real img");
+    if (zoomables.length && window.HTMLDialogElement) {
+      var box = document.createElement("dialog");
+      box.className = "v2-lightbox";
+      box.innerHTML = '<button class="v2-lightbox-close" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><figure><img alt="" /><figcaption></figcaption></figure>';
+      document.body.appendChild(box);
+      var bigImg = box.querySelector("img");
+      var bigCap = box.querySelector("figcaption");
+      var closeBtn = box.querySelector(".v2-lightbox-close");
+      var opener = null;
+
+      var close = function () {
+        if (!box.open) return;
+        box.classList.remove("is-open");
+        setTimeout(function () {
+          box.close();
+          if (opener) opener.focus({ preventScroll: true });
+        }, reduceMotion() ? 0 : 180);
+      };
+
+      var open = function (img) {
+        opener = img;
+        bigImg.src = img.currentSrc || img.src;
+        bigImg.alt = img.alt;
+        var fig = img.closest("figure");
+        var cap = fig && fig.querySelector("figcaption");
+        bigCap.textContent = cap ? cap.textContent : "";
+        bigCap.hidden = !cap;
+        closeBtn.setAttribute("aria-label", pt() ? "Fechar imagem" : "Close image");
+        box.showModal();
+        void box.offsetWidth; // start the transition from the closed state
+        box.classList.add("is-open");
+      };
+
+      zoomables.forEach(function (img) {
+        img.classList.add("is-zoomable");
+        img.setAttribute("tabindex", "0");
+        img.setAttribute("role", "button");
+        var label = function () { img.setAttribute("aria-label", (pt() ? "Ampliar imagem: " : "Enlarge image: ") + img.alt); };
+        label();
+        document.addEventListener("v2:lang", label);
+        img.addEventListener("click", function () { open(img); });
+        img.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(img); }
+        });
+      });
+
+      closeBtn.addEventListener("click", close);
+      box.addEventListener("click", function (e) { if (e.target === box) close(); });
+      box.addEventListener("cancel", function (e) { e.preventDefault(); close(); });
+    }
+
+    // 2. Count numbers up once they come into view
+    var stats = document.querySelectorAll(".v2-stat-value");
+    if (stats.length && "IntersectionObserver" in window && !reduceMotion()) {
+      var countUp = function (el) {
+        var final = el.textContent;
+        var parts = final.split(/(\d+)/);
+        if (parts.length < 2) return;
+        var start = performance.now();
+        var written = final;
+        var step = function (now) {
+          if (el.textContent !== written) return; // language changed mid-way: keep the new text
+          var t = Math.min(1, (now - start) / 900);
+          var ease = 1 - Math.pow(1 - t, 3);
+          written = parts.map(function (part, i) {
+            return i % 2 ? String(Math.round(Number(part) * ease)) : part;
+          }).join("");
+          el.textContent = written;
+          if (t < 1) requestAnimationFrame(step);
+          else el.textContent = final;
+        };
+        requestAnimationFrame(step);
+      };
+      var seen = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          seen.unobserve(entry.target);
+          countUp(entry.target);
+        });
+      }, { threshold: 0.6 });
+      stats.forEach(function (el) { seen.observe(el); });
+    }
+
+    // 3. Reading progress on case pages
+    var top = document.querySelector(".v2-top");
+    if (top && document.querySelector(".v2-hero")) {
+      var bar = document.createElement("div");
+      bar.className = "v2-progress";
+      bar.setAttribute("aria-hidden", "true");
+      top.appendChild(bar);
+      var ticking = false;
+      var update = function () {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+        bar.style.transform = "scaleX(" + p + ")";
+        ticking = false;
+      };
+      window.addEventListener("scroll", function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+      window.addEventListener("resize", update);
+      update();
+    }
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initMotion);
+  else initMotion();
 })();
