@@ -239,15 +239,24 @@
         else if (state === "work" && window.scrollY <= 0 && e.deltaY < -20 && Date.now() - enteredAt > 700) show("welcome", true);
       }, { passive: true });
 
-      var touchY = null;
-      window.addEventListener("touchstart", function (e) { touchY = e.touches[0].clientY; }, { passive: true });
-      window.addEventListener("touchend", function (e) {
-        if (touchY === null) return;
-        var dy = touchY - e.changedTouches[0].clientY;
-        if (state === "welcome" && dy > 50) show("work", true);
-        else if (state === "work" && window.scrollY <= 0 && dy < -70 && Date.now() - enteredAt > 700) show("welcome", true);
-        touchY = null;
+      // Touch: react during the swipe, since phones often cancel the gesture before touchend
+      var touch = null;
+      window.addEventListener("touchstart", function (e) {
+        touch = { y: e.touches[0].clientY, atTop: window.scrollY <= 0, done: false };
       }, { passive: true });
+      window.addEventListener("touchmove", function (e) {
+        if (!touch || touch.done) return;
+        var dy = touch.y - e.touches[0].clientY;
+        if (state === "welcome" && dy > 40) {
+          touch.done = true;
+          show("work", true);
+        } else if (state === "work" && touch.atTop && window.scrollY <= 0 && dy < -60 && Date.now() - enteredAt > 700) {
+          touch.done = true;
+          show("welcome", true);
+        }
+      }, { passive: true });
+      window.addEventListener("touchend", function () { touch = null; }, { passive: true });
+      window.addEventListener("touchcancel", function () { touch = null; }, { passive: true });
 
       window.addEventListener("keydown", function (e) {
         if (state !== "welcome") return;

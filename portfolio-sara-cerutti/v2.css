@@ -2245,3 +2245,9 @@ img.v2-portrait {
     transition: none;
   }
 }
+
+/* Home: the swipe between panels replaces pull-to-refresh and overscroll bounce */
+html.hc,
+html.hc body {
+  overscroll-behavior-y: none;
+}
