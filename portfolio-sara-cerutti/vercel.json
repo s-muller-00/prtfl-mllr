@@ -1,4 +1,16 @@
 {
   "cleanUrls": true,
-  "trailingSlash": true
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/work/artemya/enxuta",
+      "destination": "/work/artemya/",
+      "permanent": true
+    },
+    {
+      "source": "/work/artemya/enxuta/",
+      "destination": "/work/artemya/",
+      "permanent": true
+    }
+  ]
 }
