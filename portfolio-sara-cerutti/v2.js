@@ -397,25 +397,6 @@
       });
     });
 
-    // "After" cards that have a screen in the same change open it enlarged
-    if (openZoom) {
-      document.querySelectorAll(".v2-change").forEach(function (change) {
-        var card = change.querySelector(".v2-ba > .after");
-        var img = change.querySelector("img.is-zoomable");
-        if (!card || !img) return;
-        card.classList.add("is-linked");
-        card.setAttribute("role", "button");
-        card.setAttribute("tabindex", "0");
-        var label = function () { card.setAttribute("aria-label", (pt() ? "Ver a tela: " : "See the screen: ") + card.textContent.trim()); };
-        label();
-        document.addEventListener("v2:lang", label);
-        card.addEventListener("click", function () { openZoom(img, card); });
-        card.addEventListener("keydown", function (e) {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openZoom(img, card); }
-        });
-      });
-    }
-
     // Skip link: move focus to the content without changing the URL (the home reads the hash)
     var skip = document.querySelector(".skip-link");
     var mainEl = document.getElementById("main");

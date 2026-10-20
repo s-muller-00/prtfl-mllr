@@ -2800,37 +2800,6 @@ main:focus {
   margin-top: 16px;
 }
 
-/* "After" cards that open their screen */
-.v2-ba > div.is-linked {
-  position: relative;
-  padding-right: 40px;
-  cursor: zoom-in;
-  transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
-}
-
-.v2-ba > div.is-linked::after {
-  content: "";
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 14px;
-  height: 14px;
-  background: var(--tone, var(--accent));
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.5 2.5h4v4M13.5 2.5 9 7M6.5 13.5h-4v-4M2.5 13.5 7 9'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.5 2.5h4v4M13.5 2.5 9 7M6.5 13.5h-4v-4M2.5 13.5 7 9'/%3E%3C/svg%3E") center / contain no-repeat;
-}
-
-.v2-ba > div.is-linked:hover,
-.v2-ba > div.is-linked:focus-visible {
-  border-color: var(--tone, var(--accent));
-  box-shadow: 0 0 0 1px var(--tone, var(--accent));
-}
-
-.v2-ba > div.is-linked:focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 2px;
-}
-
 /* Artemya: a single screen after the loop */
 .v2-today-single .v2-figure {
   margin: 0;
@@ -2843,8 +2812,7 @@ main:focus {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .v2-compare-tab,
-  .v2-ba > div.is-linked {
+  .v2-compare-tab {
     transition: none;
   }
 }
