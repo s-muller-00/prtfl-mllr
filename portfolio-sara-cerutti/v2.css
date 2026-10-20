@@ -2522,3 +2522,58 @@ main,
     transform: none;
   }
 }
+
+/* Collapsible detail inside a case section */
+.v2-details {
+  margin-top: 28px;
+  border-top: 1px solid var(--hairline);
+  padding-top: 16px;
+}
+
+.v2-details summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+  transition: color 0.2s var(--ease-out);
+}
+
+.v2-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.v2-details summary::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.2s var(--ease-out);
+}
+
+.v2-details[open] summary::before {
+  transform: rotate(45deg);
+}
+
+.v2-details summary:hover,
+.v2-details summary:focus-visible {
+  color: var(--primary);
+}
+
+.v2-details > :not(summary) {
+  margin-top: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-details summary,
+  .v2-details summary::before {
+    transition: none;
+  }
+}
