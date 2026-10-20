@@ -320,6 +320,7 @@
     var pt = function () { return document.documentElement.getAttribute("data-lang") === "pt"; };
 
     // 1 and 7. Enlarge screenshots and photos
+    var openZoom = null;
     var zoomables = document.querySelectorAll(".v2-shot, .v2-photos.is-real img");
     if (zoomables.length && window.HTMLDialogElement) {
       var box = document.createElement("dialog");
@@ -340,8 +341,8 @@
         }, reduceMotion() ? 0 : 180);
       };
 
-      var open = function (img) {
-        opener = img;
+      var open = function (img, from) {
+        opener = from || img;
         bigImg.src = img.currentSrc || img.src;
         bigImg.alt = img.alt;
         var fig = img.closest("figure");
@@ -367,9 +368,52 @@
         });
       });
 
+      openZoom = open;
       closeBtn.addEventListener("click", close);
       box.addEventListener("click", function (e) { if (e.target === box) close(); });
       box.addEventListener("cancel", function (e) { e.preventDefault(); close(); });
+    }
+
+    // Before / after comparator: the two cards are tabs that swap the screen below
+    document.querySelectorAll("[data-compare]").forEach(function (box) {
+      var tabs = Array.prototype.slice.call(box.querySelectorAll('[role="tab"]'));
+      var select = function (tab, focus) {
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.setAttribute("aria-selected", on ? "true" : "false");
+          t.tabIndex = on ? 0 : -1;
+          document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+        });
+        if (focus) tab.focus();
+      };
+      tabs.forEach(function (tab, i) {
+        tab.addEventListener("click", function () { select(tab, false); });
+        tab.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+            e.preventDefault();
+            select(tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length], true);
+          }
+        });
+      });
+    });
+
+    // "After" cards that have a screen in the same change open it enlarged
+    if (openZoom) {
+      document.querySelectorAll(".v2-change").forEach(function (change) {
+        var card = change.querySelector(".v2-ba > .after");
+        var img = change.querySelector("img.is-zoomable");
+        if (!card || !img) return;
+        card.classList.add("is-linked");
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        var label = function () { card.setAttribute("aria-label", (pt() ? "Ver a tela: " : "See the screen: ") + card.textContent.trim()); };
+        label();
+        document.addEventListener("v2:lang", label);
+        card.addEventListener("click", function () { openZoom(img, card); });
+        card.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openZoom(img, card); }
+        });
+      });
     }
 
     // Skip link: move focus to the content without changing the URL (the home reads the hash)

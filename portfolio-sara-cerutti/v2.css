@@ -2210,7 +2210,7 @@ img.v2-portrait {
   left: calc(50% - 50vw);
   right: calc(50% - 50vw);
   z-index: -1;
-  background: rgba(247, 247, 245, 0.82);
+  background: rgba(247, 247, 245, 0.94);
   -webkit-backdrop-filter: blur(16px) saturate(160%);
   backdrop-filter: blur(16px) saturate(160%);
   border-bottom: 1px solid var(--paper-edge);
@@ -2688,6 +2688,163 @@ main:focus {
 @media (prefers-reduced-motion: reduce) {
   .skip-link,
   .v2-loop-toggle {
+    transition: none;
+  }
+}
+
+/* ---------- Case colour: one accent per case, used sparingly ---------- */
+[data-tone="art"] { --tone: #2a5592; --tone-soft: #edf2fa; --tone-line: rgba(42, 85, 146, 0.45); }
+[data-tone="gpa"] { --tone: #2a6146; --tone-soft: #ecf4ee; --tone-line: rgba(42, 97, 70, 0.45); }
+[data-tone="cos"] { --tone: #523894; --tone-soft: #f2eefa; --tone-line: rgba(82, 56, 148, 0.45); }
+
+/* Section labels stand out from the running text */
+[data-tone] .v2-sheet .v2-eyebrow,
+[data-tone] .v2-details summary {
+  color: var(--tone);
+}
+
+[data-tone] .v2-sub > .v2-eyebrow,
+[data-tone] .v2-ba .v2-eyebrow,
+[data-tone] .v2-compare-tab .v2-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+[data-tone] .v2-sub > .v2-eyebrow {
+  margin-bottom: 12px;
+}
+
+[data-tone] .v2-sub + .v2-sub {
+  margin-top: 44px;
+}
+
+[data-tone] .v2-num {
+  color: var(--tone);
+}
+
+[data-tone] .v2-ba > div.after {
+  border-color: var(--tone-line);
+}
+
+[data-tone] .v2-progress {
+  background: var(--tone);
+}
+
+/* Headline numbers sit on a soft band of the case colour */
+[data-tone] .v2-sheet > .v2-stats:not(.v2-stats--inline) {
+  padding: 40px 32px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--tone-soft);
+}
+
+@media (max-width: 760px) {
+  [data-tone] .v2-sheet > .v2-stats:not(.v2-stats--inline) {
+    padding: 28px 20px;
+  }
+}
+
+/* The cover leaves the screen sooner: less gap before the content slides over it */
+.v2-sheet {
+  margin-top: 14vh;
+}
+
+/* ---------- Before / after comparator ---------- */
+.v2-compare {
+  margin: 0 0 48px;
+}
+
+.v2-compare-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.v2-compare-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-s);
+  background: transparent;
+  color: var(--body-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease-out), background-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+
+.v2-compare-tab:hover {
+  border-color: var(--tone-line, var(--accent));
+}
+
+.v2-compare-tab[aria-selected="true"] {
+  background: var(--card);
+  border-color: var(--tone, var(--accent));
+  box-shadow: 0 0 0 1px var(--tone, var(--accent));
+}
+
+.v2-compare-tab:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.v2-compare-text {
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.v2-compare-panel {
+  margin-top: 16px;
+}
+
+/* "After" cards that open their screen */
+.v2-ba > div.is-linked {
+  position: relative;
+  padding-right: 40px;
+  cursor: zoom-in;
+  transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+
+.v2-ba > div.is-linked::after {
+  content: "";
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 14px;
+  height: 14px;
+  background: var(--tone, var(--accent));
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.5 2.5h4v4M13.5 2.5 9 7M6.5 13.5h-4v-4M2.5 13.5 7 9'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.5 2.5h4v4M13.5 2.5 9 7M6.5 13.5h-4v-4M2.5 13.5 7 9'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.v2-ba > div.is-linked:hover,
+.v2-ba > div.is-linked:focus-visible {
+  border-color: var(--tone, var(--accent));
+  box-shadow: 0 0 0 1px var(--tone, var(--accent));
+}
+
+.v2-ba > div.is-linked:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Artemya: a single screen after the loop */
+.v2-today-single .v2-figure {
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .v2-compare-tabs {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-compare-tab,
+  .v2-ba > div.is-linked {
     transition: none;
   }
 }
