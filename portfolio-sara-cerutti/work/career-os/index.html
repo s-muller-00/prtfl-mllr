@@ -33,6 +33,7 @@
   <link rel="stylesheet" href="../../v2.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
   <div class="v2-bg" aria-hidden="true"></div>
   <header class="v2-top">
     <a class="v2-name" href="../../index.html">Sara Cerutti</a>
@@ -40,7 +41,7 @@
       <a class="about-link keep" href="../../resume.pdf" data-href-en="../../resume.pdf" data-href-pt="../../resume-pt.pdf" download="Sara-Cerutti-Resume.pdf" data-download-en="Sara-Cerutti-Resume.pdf" data-download-pt="Sara-Cerutti-Curriculo.pdf" data-i18n="resume">CV</a>
       <a class="about-link" href="https://www.linkedin.com/in/saramllr/" target="_blank" rel="noopener">LinkedIn</a>
       <a class="about-link" href="mailto:saracmuller@gmail.com">Email</a>
-      <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch language">
+      <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch to Portuguese" data-i18n-label="langSwitch">
         <span data-lang-code="en" aria-hidden="true" class="is-active">EN</span>
         <span class="lang-sep" aria-hidden="true">/</span>
         <span data-lang-code="pt" aria-hidden="true">PT</span>
@@ -48,7 +49,7 @@
     </div>
   </header>
 
-  <main class="v2-main">
+  <main id="main" tabindex="-1" class="v2-main">
     <a class="v2-back" href="../../experiments/index.html">
       <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span data-i18n="back">Experiments</span>

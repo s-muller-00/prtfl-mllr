@@ -13,8 +13,8 @@
   --accent-container: #dfe8ec;
   /* The accent fails AA as small text; text uses the darker slate of the same hue. */
   --accent-text: #3f5a68;
-  /* Cindy's #0081f2 gives 3.9:1 with white; #0073d9 is the closest of the same hue that passes AA. */
-  --dock-select: #0073d9;
+  /* Cindy's #0081f2 gives 3.9:1 with white; #005fb8 keeps the hue and reaches APCA Lc 86 for the 11px label. */
+  --dock-select: #005fb8;
   --dock-ink: #1e1a15;
   --card: #ffffff;
   --radius-s: 8px;
@@ -890,7 +890,7 @@ body::after {
 .v2-caption {
   margin: 24px 0 0;
   font-family: var(--sans);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   color: var(--muted);
 }
 
@@ -1107,7 +1107,7 @@ body::after {
 .v2-pair figcaption {
   margin-top: 10px;
   font-family: var(--sans);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   line-height: 1.5;
   color: var(--muted);
 }
@@ -2574,6 +2574,120 @@ main,
 @media (prefers-reduced-motion: reduce) {
   .v2-details summary,
   .v2-details summary::before {
+    transition: none;
+  }
+}
+
+/* ---------- Accessibility ---------- */
+
+/* Keep focused elements clear of the sticky header and the dock (WCAG 2.4.11) */
+html {
+  scroll-padding-top: 96px;
+  scroll-padding-bottom: 150px;
+}
+
+/* Skip link: hidden until it receives keyboard focus */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 10px 14px;
+  border-radius: var(--radius-s);
+  background: var(--primary);
+  color: #ffffff;
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transform: translateY(-160%);
+  transition: transform 0.15s ease;
+}
+
+.skip-link:focus {
+  transform: none;
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+main:focus {
+  outline: none;
+}
+
+/* Bigger hit areas for the small header links, with no visual change (WCAG 2.5.8) */
+.v2-links .about-link,
+.v2-links .lang-toggle,
+.h-top .about-link,
+.h-top .lang-toggle {
+  padding: 6px 4px;
+  margin: -6px -4px;
+}
+
+.v2-back {
+  padding: 6px 0;
+  margin-bottom: -6px;
+}
+
+/* Product loop: pause control and the still shown while paused */
+.v2-loop-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 4px 10px 4px 8px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-pill);
+  background: var(--card);
+  color: var(--primary);
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease-out);
+}
+
+.v2-loop-toggle:hover,
+.v2-loop-toggle:focus-visible {
+  border-color: var(--accent);
+}
+
+.v2-loop-toggle svg {
+  width: 12px;
+  height: 12px;
+}
+
+.v2-loop-toggle .i-play,
+.v2-demo.is-paused ~ .v2-demo-foot .v2-loop-toggle .i-pause {
+  display: none;
+}
+
+.v2-demo.is-paused ~ .v2-demo-foot .v2-loop-toggle .i-play {
+  display: block;
+}
+
+.v2-demo .shot-frame {
+  position: relative;
+}
+
+.v2-demo-still {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
+  border-radius: 9px;
+  background: #fff;
+  object-fit: cover;
+  object-position: top center;
+  display: none;
+}
+
+.v2-demo.is-paused .v2-demo-still {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link,
+  .v2-loop-toggle {
     transition: none;
   }
 }

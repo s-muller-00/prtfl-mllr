@@ -34,6 +34,7 @@
   <link rel="stylesheet" href="../../../v2.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
   <div class="v2-bg" aria-hidden="true"></div>
   <header class="v2-top">
     <a class="v2-name" href="../../../index.html">Sara Cerutti</a>
@@ -41,7 +42,7 @@
       <a class="about-link keep" href="../../../resume.pdf" data-href-en="../../../resume.pdf" data-href-pt="../../../resume-pt.pdf" download="Sara-Cerutti-Resume.pdf" data-download-en="Sara-Cerutti-Resume.pdf" data-download-pt="Sara-Cerutti-Curriculo.pdf" data-i18n="resume">CV</a>
       <a class="about-link" href="https://www.linkedin.com/in/saramllr/" target="_blank" rel="noopener">LinkedIn</a>
       <a class="about-link" href="mailto:saracmuller@gmail.com">Email</a>
-      <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch language">
+      <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch to Portuguese" data-i18n-label="langSwitch">
         <span data-lang-code="en" aria-hidden="true" class="is-active">EN</span>
         <span class="lang-sep" aria-hidden="true">/</span>
         <span data-lang-code="pt" aria-hidden="true">PT</span>
@@ -49,7 +50,7 @@
     </div>
   </header>
 
-  <main class="v2-main">
+  <main id="main" tabindex="-1" class="v2-main">
     <a class="v2-back" href="../../../index.html#work">
       <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span data-i18n="back">Work</span>
@@ -118,12 +119,17 @@
 
     <section class="v2-block" aria-labelledby="demo-title">
       <p class="v2-eyebrow" id="demo-title" style="margin-bottom: 16px;" data-i18n="demoL">The product in motion</p>
-      <div class="shot tone-art v2-demo">
+      <div class="shot tone-art v2-demo" data-still="../screens/home.webp">
         <div class="shot-frame">
           <iframe src="../loop/index.html" inert tabindex="-1" title="Artemya in production, playing on a loop" data-i18n-title="demoFrame" loading="lazy"></iframe>
         </div>
       </div>
       <div class="v2-demo-foot">
+        <button class="v2-loop-toggle" type="button" data-loop-toggle aria-pressed="false">
+          <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="4" y="3" width="2.6" height="10" rx="1" fill="currentColor"/><rect x="9.4" y="3" width="2.6" height="10" rx="1" fill="currentColor"/></svg>
+          <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2v9.6a.8.8 0 0 0 1.2.7l7.6-4.8a.8.8 0 0 0 0-1.4L6.2 2.5A.8.8 0 0 0 5 3.2z" fill="currentColor"/></svg>
+          <span data-loop-label>Pause animation</span>
+        </button>
         <p class="v2-caption" data-i18n="demoCap">A loop through the live product: onboarding, sign-in and a practice session with a virtual patient. It runs in Portuguese, the product's language.</p>
         <a class="v2-cta" href="../loop/index.html" target="_blank" rel="noopener">
           <span data-i18n="demoOpen">Open full screen</span>

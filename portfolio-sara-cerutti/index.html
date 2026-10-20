@@ -33,17 +33,18 @@
   <link rel="stylesheet" href="v2.css" />
 </head>
 <body class="hc-at-welcome">
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
   <div class="v2-bg" aria-hidden="true"></div>
   <div class="h-wrap">
     <header class="h-top">
       <h1 class="h-name"><a class="v2-name" href="#" data-go="welcome">Sara Cerutti</a></h1>
-      <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch language">
+      <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch to Portuguese" data-i18n-label="langSwitch">
         <span data-lang-code="en" aria-hidden="true" class="is-active">EN</span>
         <span class="lang-sep" aria-hidden="true">/</span>
         <span data-lang-code="pt" aria-hidden="true">PT</span>
       </button>
     </header>
-    <main>
+    <main id="main" tabindex="-1">
       <section class="hc-panel is-active" id="hc-welcome" aria-label="Introduction">
         <p class="h-bio"><span data-i18n="bio1">I'm a Product Designer focused on complex products and research.</span> <span class="soft" data-i18n="bio2">I care about understanding the problem deeply, working closely with the people who use and build the product, and turning that understanding into better decisions.</span></p>
         <div class="h-links">

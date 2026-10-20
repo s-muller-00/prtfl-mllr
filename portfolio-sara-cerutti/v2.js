@@ -7,14 +7,18 @@
       dockExperiments: "Experiments",
       dockAbout: "About",
       resume: "CV",
-      back: "Work"
+      back: "Work",
+      skip: "Skip to content",
+      langSwitch: "Switch to Portuguese"
     },
     pt: {
       dockWork: "Trabalho",
       dockExperiments: "Experimentos",
       dockAbout: "Sobre",
       resume: "CV",
-      back: "Trabalho"
+      back: "Trabalho",
+      skip: "Pular para o conteúdo",
+      langSwitch: "Mudar para inglês"
     }
   };
 
@@ -366,6 +370,56 @@
       closeBtn.addEventListener("click", close);
       box.addEventListener("click", function (e) { if (e.target === box) close(); });
       box.addEventListener("cancel", function (e) { e.preventDefault(); close(); });
+    }
+
+    // Skip link: move focus to the content without changing the URL (the home reads the hash)
+    var skip = document.querySelector(".skip-link");
+    var mainEl = document.getElementById("main");
+    if (skip && mainEl) {
+      skip.addEventListener("click", function (e) {
+        e.preventDefault();
+        mainEl.focus({ preventScroll: true });
+        mainEl.scrollIntoView({ block: "start", behavior: reduceMotion() ? "auto" : "smooth" });
+      });
+    }
+
+    // Product loop: a pause control (WCAG 2.2.2), paused from the start for reduced motion
+    var demo = document.querySelector(".v2-demo");
+    var loopBtn = document.querySelector("[data-loop-toggle]");
+    var frame = demo && demo.querySelector("iframe");
+    if (demo && loopBtn && frame) {
+      var loopSrc = frame.getAttribute("src");
+      var still = null;
+      var stillSrc = demo.getAttribute("data-still");
+      var paused = false;
+      var loopLabel = loopBtn.querySelector("[data-loop-label]");
+      var setLabel = function () {
+        loopLabel.textContent = paused
+          ? (pt() ? "Continuar animação" : "Play animation")
+          : (pt() ? "Pausar animação" : "Pause animation");
+      };
+      var setPaused = function (value) {
+        paused = value;
+        demo.classList.toggle("is-paused", paused);
+        loopBtn.setAttribute("aria-pressed", paused ? "true" : "false");
+        if (paused) {
+          if (!still && stillSrc) {
+            still = document.createElement("img");
+            still.className = "v2-demo-still";
+            still.src = stillSrc;
+            still.alt = "";
+            frame.parentNode.appendChild(still);
+          }
+          frame.setAttribute("src", "about:blank");
+        } else {
+          frame.setAttribute("src", loopSrc);
+        }
+        setLabel();
+      };
+      loopBtn.addEventListener("click", function () { setPaused(!paused); });
+      document.addEventListener("v2:lang", setLabel);
+      if (reduceMotion()) setPaused(true);
+      else setLabel();
     }
 
     // 2. Count numbers up once they come into view
