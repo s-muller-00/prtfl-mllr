@@ -2816,3 +2816,12 @@ main:focus {
     transition: none;
   }
 }
+
+/* What I'd do differently / what I'm tracking: open, with clear breaks between parts */
+.v2-notes {
+  margin-top: 44px;
+}
+
+.v2-notes .v2-eyebrow:not(:first-child) {
+  margin-top: 32px;
+}
