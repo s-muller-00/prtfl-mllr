@@ -2252,22 +2252,100 @@ html.hc body {
   overscroll-behavior-y: none;
 }
 
-/* Dock: all three icons are objects in the folder's style (same box, no tile, same shadow) */
+/* Dock: three app-style tiles (option B); option A is saved in design/dock-opcao-a.html */
+.dock-icon--folder,
 .dock-icon--lab,
 .dock-icon--profile {
-  width: 58px;
+  width: 45px;
   height: 45px;
-  border-radius: 0;
+  border-radius: 10px;
   overflow: visible;
   background: none;
   box-shadow: none;
-  filter: drop-shadow(rgba(0, 0, 0, 0.12) 1px 2px 3px);
+  filter: drop-shadow(rgba(0, 0, 0, 0.14) 1px 2px 3px);
 }
 
 @media (max-width: 760px) {
+  .dock-icon--folder,
   .dock-icon--lab,
   .dock-icon--profile {
-    width: 56px;
+    width: 50px;
     height: 50px;
   }
+}
+
+/* Selected dock label: same outer height as the others, so the icon doesn't jump */
+.dock-item[aria-current="page"] .dock-label {
+  margin: 1.5px 0;
+}
+
+@media (max-width: 760px) {
+  .dock-item[aria-current="page"] .dock-label {
+    margin: 0;
+  }
+}
+
+/* ---------- Page transitions ----------
+   Browsers that support cross-document view transitions crossfade between pages.
+   The dock and the header keep their place, so only the content changes. */
+@view-transition {
+  navigation: auto;
+}
+
+.dock {
+  view-transition-name: dock;
+}
+
+.v2-top,
+.h-top {
+  view-transition-name: top;
+}
+
+::view-transition-old(root) {
+  animation: vtOut 0.18s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+::view-transition-new(root) {
+  animation: vtIn 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+::view-transition-group(dock),
+::view-transition-group(top) {
+  animation-duration: 0.32s;
+}
+
+@keyframes vtOut {
+  to { opacity: 0; }
+}
+
+@keyframes vtIn {
+  from { opacity: 0; transform: translateY(12px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-group(dock),
+  ::view-transition-group(top) {
+    animation: none;
+  }
+}
+
+/* Home panels: shorter exit, quicker deal, so the switch doesn't feel stuck */
+.hc-leaving-up {
+  animation: hcLeaveUp 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.hc-leaving-down {
+  animation: hcLeaveDown 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.hc-entering-down {
+  animation-duration: 0.42s;
+}
+
+.hc-entering .h-card,
+.hc-entering .h-section-head {
+  animation-duration: 0.5s;
+  animation-delay: calc(var(--i, 0) * 60ms);
 }
